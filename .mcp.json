@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "project-status": {
+      "type": "stdio",
+      "command": "/Users/aprilgong/Documents/15113/hw8-skill/mcp/.venv/bin/python",
+      "args": [
+        "/Users/aprilgong/Documents/15113/hw8-skill/mcp/project_status_server.py"
+      ],
+      "env": {}
+    }
+  }
+}

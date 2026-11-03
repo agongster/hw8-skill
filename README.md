@@ -25,7 +25,7 @@ I found that in my own work in this class, I would be unsure of how much progres
 > real quick--walk me through how everything works at a high level. how are the sprites made, how is the multiplayer implemented, what is being done where, etc.
 > (fishing-sim, 2026-10-08, `agongster.github.io/fishing-sim/prompt_log.md:401`)
 
-TODO: one or two sentences in my own words on what each quote shows.
+These show that I couldn't tell from the project myself what was finished and what was left, and needed better guidelines for understanding the project's implementation and progress.
 
 > TODO (MCP tool): the friction behind the tool, with a quote.
 

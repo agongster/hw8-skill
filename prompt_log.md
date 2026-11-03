@@ -53,3 +53,27 @@ It asked which friction felt most real to me, which client I plan to use (Claude
 > can you log all three prompts? i think in combination they all demonstrate different key points
 
 **Summary of response:** Claude read "all three" as the Naevia "what is to be implemented next?" prompt and the two fishing-sim prompts ("currently implemented?" and "walk me through how everything works"), and put them in the README's friction section with their sources. It left "is it done?" out, left a `TODO` for me to explain in my own words what each one shows, and logged prompts 4 and 5 here.
+
+### 6. 2026-11-03
+
+**Model / tools:** Claude Sonnet 5.5 (`claude-sonnet-5-5`) in Claude Code. Tools used: Bash (this log). No other tools; this was ideation only.
+
+> what should the corresponding mcp server do?
+
+**Summary of response:** Claude said the MCP tool should give the `progress-check` skill evidence it can't easily get on its own. It offered three candidates: (A) a `project_status` snapshot of the repo (which required files exist or are empty, commits and uncommitted changes since a baseline, TODO markers), (B) a "claims vs. actions" tool that reads session transcripts and shows what the agent said it finished next to what it actually ran, and (C) a live-site checker. It recommended A for the first version because it's the simplest to build and demo. It noted honestly that A is the weakest on "new reach", and that B is the most distinctive.
+
+### 7. 2026-11-03
+
+**Model / tools:** Claude Sonnet 5.5 (`claude-sonnet-5-5`) in Claude Code. Tools used: Bash (create venv, run tests, register the server, run a headless check), Write (`mcp/project_status_server.py`). A separate fresh Sonnet 5.5 session ran `progress-check` as the test.
+
+> that makes sense, please implement A for my first version.
+
+**Summary of response:** Claude built `mcp/project_status_server.py` (one tool, `project_status(project_folder, baseline)`: file list with EMPTY flags, git branch/commits/uncommitted changes/diff since a baseline, and TODO/FIXME markers with line numbers) plus `mcp/requirements.txt` (`mcp>=2.3,<3`) and a `.gitignore`. Testing found one bug (git's first status line lost its leading space), which it fixed. It then confirmed the tool works over real stdio, registered it in `.mcp.json`, and symlinked the skill into `.claude/skills/progress-check` to try it. In that end-to-end run the server connected and the skill triggered, but the checker never called `project_status`; it used Bash and Read instead. Claude did not change the skill and reported this to me as a finding.
+
+### 8. 2026-11-03
+
+**Model / tools:** Claude Opus 5.5 (`claude-opus-5-5`) in Claude Code (I switched back with `/model opus`). Tools used: Bash (this log, and a check that hw7-game has a SPEC.md to suggest as a test target).
+
+> Can you give me a very clear report on what you tested and the results of each? what kind of questions or prompts should make it call this tool/skill? how do i run it myself and what is something i can do to test the efficacy of this skill?
+
+**Summary of response:** Claude gave a table of the 6 tests run so far and their results, including that the end-to-end run triggered the skill but never called `project_status`, and that the checker used a "Partially met" verdict the skill doesn't allow. It also listed what was never tested (Codex, interactive Claude Code, the "never edits" rule). It listed prompts that should and shouldn't trigger the skill, explained that triggering the skill is not the same as calling the tool, gave step-by-step commands to run it myself (interactive and headless), and suggested efficacy tests: a planted-problems test scored for what it caught and what it falsely flagged, a trigger test, a with/without-tool comparison, a consistency test, and a "never edits" test.
