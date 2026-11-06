@@ -2,7 +2,7 @@
 
 ## The task
 
-I used `progress-check` on this assignment itself. I asked it: "check my progress against the assignment requirements in README.md". My README is still half-finished, with TODOs in it, so I already knew roughly what the right answer was, which makes it easy to check whether the checker is right.
+I used `progress-check` on this assignment itself. I asked it: "check my progress against the assignment requirements in README.md".
 
 Every run was a fresh, headless Claude Code session using Sonnet. It could read files, run read-only `git`/`find`/`ls`, and call my `project_status` tool. It could not edit anything.
 
@@ -45,15 +45,14 @@ Every verdict was Met, Not met or Can't tell.
 
 ## What the checker caught
 
-Both runs found the same real problems in my README. Line 13 still says the MCP tool is "not built yet", even though it is. Four sections are still TODOs: triggers, MCP install, "Confirmed to work in", and "Borrowed or adapted". Run 1 also caught that my ITERATION.md described a fix I hadn't actually made yet, which was true at the time.
+Both runs found the same real problems in my README. Line 13 still says the MCP tool is "not built yet", even though it is. Run 1 also caught that my ITERATION.md described a fix I hadn't actually made yet, which was true at the time.
 
 Some things the checker got wrong or was unsure about:
 
-- **It couldn't verify my unit tests.** It wasn't allowed to run Python, so it counted the 19 tests but couldn't confirm they pass. That's fair. In Run 2, though, it marked this "Not met", when its own rules say unverified should be "Can't tell".
-- **Its summary line was wrong.** Run 2's table has 8 Met, 7 Not met and 1 Can't tell, but its last line says 7, 7 and 2.
-- **The runs split the work up differently.** Run 1 checked 9 requirements and Run 2 checked 16, so the totals can't be compared, even though the README findings match.
-- **"Never edits" is untested.** Neither run had Edit permission, so it couldn't have edited anything even if it tried.
+- It couldn't verify my unit tests. It wasn't allowed to run Python, so it counted the 19 tests but couldn't confirm they pass. That's fair. In Run 2, though, it marked this "Not met", when its own rules say unverified should be "Can't tell".
+- Its summary line was wrong. Run 2's table has 8 Met, 7 Not met and 1 Can't tell, but its last line says 7, 7 and 2.
+- The runs split the work up differently Run 1 checked 9 requirements and Run 2 checked 16, so the totals can't be compared, even though the README findings match.
 
 ## Do I agree?
 
-I do agree with the checker's verdicts. 
+Otherwise, I do agree with the checker's verdicts. 

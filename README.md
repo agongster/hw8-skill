@@ -6,11 +6,17 @@ This is a documentation skill that helps me document my process and AI actions. 
 
 When there are multiple possible directions for the architecture and design of the project, the AI should lay these options out for me and let me choose which direction to go in, rather than choosing for me.
 
-**Triggers:** TODO (write the situations in which you want it to run, the current `description` in `skill/SKILL.md` says it runs when I ask where a project stands, what is left to do, whether it is ready to submit, or to check progress against requirements. Rewrite this in my own words.)
+**Triggers:** I want it to run whenever I'm not sure where a project is at: when I ask where things stand, what's left to do, whether it's ready to submit, or to check my work against a SPEC.md or the assignment requirements. It shouldn't run when I'm asking for actual work, like "fix this bug" or "write the README". I can also force it with `/progress-check`.
 
 ## What the MCP tool does
 
-TODO (not built yet: one tool, what it reaches, and what it returns.)
+One tool, `project_status(project_folder, baseline="")`. It reads a project folder and its git history and returns one plain-text snapshot:
+
+- every file with its size, with empty files marked `EMPTY`;
+- the git branch, the last 10 commits, uncommitted changes, and (if you give a `baseline` commit) the files changed since then;
+- every `TODO` / `FIXME` marker with its file and line number.
+
+It's read-only and never changes the project. The skill tells the agent to call it first, so every check starts from the same facts instead of whatever the agent decides to look at.
 
 ## The friction that motivated this
 
@@ -33,15 +39,35 @@ These show that I couldn't tell from the project myself what was finished and wh
 - one project only: `<project>/.claude/skills/<skill-name>/SKILL.md`
 - all projects: `~/.claude/skills/<skill-name>/SKILL.md`
 
-**MCP server:** TODO (the exact config to register it, with machine-specific paths marked, e.g. `<ABSOLUTE PATH TO THIS REPO>`.)
+**MCP server:** it needs Python 3.10+ and the MCP Python SDK. First set up a virtual environment:
+
+```
+cd <ABSOLUTE PATH TO THIS REPO>/mcp
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+```
+
+Then register it with Claude Code. Use `--scope project` for one project, or `--scope user` for all projects:
+
+```
+claude mcp add --scope project project-status -- <ABSOLUTE PATH TO THIS REPO>/mcp/.venv/bin/python <ABSOLUTE PATH TO THIS REPO>/mcp/project_status_server.py
+```
+
+With `--scope project`, this writes a `.mcp.json` like the one in this repo. With `--scope user`, it saves the server to your user settings instead. The paths in this repo's `.mcp.json` are for my machine, so change them to yours. The first time you start Claude Code, approve the `project-status` server when it asks (or in `/mcp`).
+
+To run the server's unit tests: `cd mcp && .venv/bin/python -m unittest -v`.
 
 ## Confirmed to work in
 
-TODO (list only the tools I actually tested: Claude Code, Codex, ...)
+- **Claude Code** (CLI, headless `claude -p`, with Sonnet): the skill loaded on its own from a plain-English prompt, and it called the `project_status` tool. See DEMONSTRATION.md.
+
+I haven't tested it in Codex or in interactive Claude Code / the VS Code extension.
 
 ## Borrowed or adapted
 
-TODO (anything from outside, and where from. Write "nothing" if so.)
+- The MCP server uses the official MCP Python SDK (the `mcp` package on PyPI) for the server and for connecting over stdio.
+
+Nothing else was borrowed. The skill and the server were written for this assignment, with AI help (see below).
 
 ## AI use on this assignment
 
