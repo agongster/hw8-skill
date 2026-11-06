@@ -50,7 +50,11 @@ def project_status(project_folder: str, baseline: str = "") -> str:
     files = list(_walk(root))
     out = [f"# Project status: {root}", f"\n## Files ({len(files)})"]
     for path in files[:MAX_FILES]:
-        size = path.stat().st_size
+        try:
+            size = path.stat().st_size
+        except OSError:  # e.g. a symlink whose target is gone
+            out.append(f"- {path.relative_to(root)}  (BROKEN LINK or unreadable)")
+            continue
         out.append(f"- {path.relative_to(root)}  ({'EMPTY' if size == 0 else f'{size} bytes'})")
     if len(files) > MAX_FILES:
         out.append(f"- ... {len(files) - MAX_FILES} more not shown")

@@ -27,8 +27,6 @@ I found that in my own work in this class, I would be unsure of how much progres
 
 These show that I couldn't tell from the project myself what was finished and what was left, and needed better guidelines for understanding the project's implementation and progress.
 
-> TODO (MCP tool): the friction behind the tool, with a quote.
-
 ## How to install
 
 **Skill:** copy the `skill/` folder into a skills directory and rename it to the skill's name (it must contain `SKILL.md`; the skill's name is `progress-check`):

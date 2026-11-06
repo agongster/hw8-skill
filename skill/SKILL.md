@@ -15,9 +15,11 @@ Break the standard into separate, checkable requirements.
 
 ## 2. Check each requirement
 
-Gather evidence from the repo (files, git history, test or command output). Don't rely on memory or on what the agent said earlier in the session.
+**Start by calling the `project_status` tool** (from the `project-status` MCP server) with `project_folder` set to the project's absolute path, if it is available. It lists every file (flagging EMPTY ones), git changes, and TODO/FIXME markers in one call. Use it as your first source of evidence, then Read specific files only to confirm details. If the tool isn't available, say so in the report and gather the same facts with git and file reads.
 
-For every requirement, give one verdict:
+Don't rely on memory or on what the agent said earlier in the session.
+
+For every requirement, give exactly one of these three verdicts, written exactly as shown. There is no "Partially met": if any part is missing, the verdict is **Not met**, and the Evidence column says which part is done and which is missing.
 
 - **Met:** cite the file (and line) or the command output that shows it.
 - **Not met:** say what is missing.
